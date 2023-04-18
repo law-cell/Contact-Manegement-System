@@ -10,9 +10,6 @@
 
   <script src="DataTables/datatables.min.js"></script>
 
-  <script>
-    window.location.href = "http://localhost:8080/editor.html";
-  </script>
 
 </head>
 <body>
@@ -38,7 +35,7 @@
         edit: {
           type: 'PUT',
           contentType: "application/json",
-          url: '/api/v1/people/update/{id}',
+          url: 'http://localhost:8080/api/v1/people/update/{id}',
           data: function(data) {
             const dataObj = data.data;
             const innerObj = dataObj[Object.keys(dataObj)[0]];//get the internal object
@@ -51,7 +48,7 @@
         },
         remove: {
           type: 'DELETE',
-          url: '/api/v1/people/delete/{id}',
+          url: 'http://localhost:8080/api/v1/people/delete/{id}',
           data: function ( data ) {
             return data;
           },
@@ -76,7 +73,7 @@
     } );
     createEditor = new $.fn.dataTable.Editor( {
       ajax: {
-        url: '/api/v1/people/addNewPeople',
+        url: 'http://localhost:8080/api/v1/people/addNewPeople',
         type: 'POST',
         dataType : "json",
         contentType: "application/json",
@@ -107,7 +104,7 @@
     $('#example').DataTable( {
       dom: "Bfrtip",
       ajax: {
-        url: '/api/v1/people/getAllPeople',
+        url: 'http://localhost:8080/api/v1/people/getAllPeople',
         type: 'GET',
         dataSrc:""
       },
