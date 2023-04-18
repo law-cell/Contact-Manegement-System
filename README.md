@@ -59,15 +59,13 @@ Example Response Body:
     "id": 1,
     "name": "John Doe",
     "age": 30,
-    "address": "123 Main St",
-    "phone": "555-555-5555"
+    "email": "john@gmail.com"
   },
   {
     "id": 2,
     "name": "Jane Doe",
     "age": 25,
-    "address": "456 Broad St",
-    "phone": "555-555-5555"
+    "email": "jane@gmail.com"
   }
 ]
 ```
@@ -83,8 +81,7 @@ Example Request Body:
 {
   "name": "Bob Smith",
   "age": 40,
-  "address": "789 Park Ave",
-  "phone": "555-555-5555"
+  "email": "bob@gmail.com"
 }
 ```
 
@@ -109,8 +106,7 @@ Example Request Body:
 {
   "name": "Bob Smith",
   "age": 42,
-  "address": "789 Park Ave",
-  "phone": "555-555-5555"
+  "email": "bob@gmail.com"
 }
 ```
 - **Response:** `200 OK` with the JSON object representing the updated people record.
