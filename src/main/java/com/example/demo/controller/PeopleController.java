@@ -23,7 +23,7 @@ public class PeopleController {
     public String Hello() {
         return "Hello World";
     }
-
+    @CrossOrigin
     @GetMapping("/getAllPeople")
     public List<People> getAllPeople() {
         return peopleService.getAllPeople();

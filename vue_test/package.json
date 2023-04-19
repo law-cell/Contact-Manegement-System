@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@syncfusion/ej2-data": "^21.1.38",
+    "@syncfusion/ej2-vue-grids": "^21.1.41",
     "core-js": "^3.8.3",
     "vue": "^3.2.13"
   },
