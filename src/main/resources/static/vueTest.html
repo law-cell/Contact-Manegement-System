@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.syncfusion.com/ej2/PACKAGENAME/dist/PACKAGENAME.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/PACKAGENAME/styles/THEMENAME.css">
+
+</head>
+<body>
+<div id="app">
+  <p>{{ message }} {{ name }}</p>
+    <button v-on:click="testAPI()">Get Random User</button>
+</div>
+
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            return {
+                message1: 'Hello!',
+                name: 'Junhao'
+            }
+        },
+        methods: {
+            async getUser() {
+                const res = await fetch('https://randomuser.me/api')
+                const {results} = await res.json()
+                console.log(results)
+            },
+
+            async testAPI() {
+                const res = await fetch('http://localhost:8080/api/v1/people/getAllPeople')
+                const results = await res.json()
+                console.log(results[0].name)
+            },
+        },
+    }).mount('#app')
+
+</script>
+</body>
+<style></style>
+</html>
