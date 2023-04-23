@@ -22,8 +22,13 @@ public class PeopleV2Controller {
     public PeopleService peopleService;
 
     @PostMapping("/getAllPeople")
-    public ItemWrapper getItems() {
+    public ItemWrapper getItems(@RequestBody Map<String, Object> jsonMap) {
         List<People> items = peopleService.getAllPeople();// your code to get the items
+        if (jsonMap.containsKey("skip") && jsonMap.containsKey("take")) {
+            int skip = (Integer) jsonMap.get("skip");
+            int take = (Integer) jsonMap.get("take");
+            return new ItemWrapper(items.subList(skip, skip + take), items.size());
+        }
         return new ItemWrapper(items, items.size());
     }
 

@@ -1,7 +1,7 @@
 <template>
 <!--    <button v-on:click="testAPI()">Get Random User</button>-->
     <div class="col-lg-12 control-section">
-    <ejs-grid ref='grid' :dataSource='data' :allowPaging = true :pageSettings='pageSettings' :editSettings='editSettings' :toolbar='toolbar'>
+    <ejs-grid ref='grid' :dataSource='data' :allowPaging = "true" :pageSettings='pageSettings' :editSettings='editSettings' :toolbar='toolbar'>
         <e-columns>
             <e-column field='id' headerText='ID' textAlign='Right' :isPrimaryKey='true'  width=100></e-column>
             <e-column field='name' headerText='Name' width=120 :validationRules='nameRules' editType='TextBox'></e-column>
@@ -13,9 +13,8 @@
 </template>
 
 <script>
-import { GridComponent, ColumnsDirective, ColumnDirective} from "@syncfusion/ej2-vue-grids";
-import { Toolbar, Edit, Page } from "@syncfusion/ej2-vue-grids";
-import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
+import {ColumnDirective, ColumnsDirective, Edit, GridComponent, Page, Toolbar} from "@syncfusion/ej2-vue-grids";
+import {DataManager, UrlAdaptor} from '@syncfusion/ej2-data';
 
 
 export default {
@@ -26,6 +25,10 @@ export default {
         "e-column": ColumnDirective,
     },
     methods: {
+        // async getUser() {
+        //     const res = await fetch('http://localhost:8080/api/v1/people/getAllPeople')
+        //     this.people = await res.json()
+        // }
     },
     data() {
         return {
@@ -42,7 +45,7 @@ export default {
             nameRules: { required: true },
             ageRules: { required: true },
             emailRules: { required: true },
-            pageSettings: {pageCount: 5, pageSize :10}
+            pageSettings: {pageSize :200, pageCount :10}
         };
     },
     provide: {
@@ -50,7 +53,6 @@ export default {
     },
     // created() {
     //     this.getUser()
-    //     this.testAPI()
     // },
 }
 </script>
