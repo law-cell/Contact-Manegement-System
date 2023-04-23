@@ -2,24 +2,32 @@ package com.example.demo.service;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.People;
+import com.example.demo.model.randomUser.MyResponse;
 import com.example.demo.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
 public class PeopleService {
 
-    private final PeopleRepository peopleRepository;
+    @Autowired
+    private PeopleRepository peopleRepository;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository) {
-        this.peopleRepository = peopleRepository;
-    }
+    private RestTemplate restTemplate;
 
+    public PeopleService(PeopleRepository repo)
+    {
+        // this keyword refers to current instance
+        this.peopleRepository = repo;
+    }
     public List<People> getAllPeople() {
         return peopleRepository.findAll();
     }
@@ -52,6 +60,28 @@ public class PeopleService {
         } else {
             throw new ResourceNotFoundException("Product not found with id " + id);
         }
+    }
+
+    public List<People> generateRandomUser() {
+        String url = "https://randomuser.me/api/?results=2000";
+
+        MyResponse response = restTemplate.getForObject(url, MyResponse.class);
+        List<People> peopleList = new ArrayList<>();
+        assert response != null;
+        for (int i = 0; i < response.getResults().size(); i++) {
+            People people = People.builder()
+                    .name(response.getResults().get(i).getName().getFirst())
+                    .age(response.getResults().get(i).getDob().getAge())
+                    .email(response.getResults().get(i).getEmail())
+                    .build();
+
+            peopleList.add(people);
+        }
+        return peopleList;
+    }
+
+    public void populatePeople() {
+        peopleRepository.saveAll(this.generateRandomUser());
     }
 
     public Optional<People> getProductById(Long id) {

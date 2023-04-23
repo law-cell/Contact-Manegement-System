@@ -1,22 +1,22 @@
 <template>
-    <button v-on:click="testAPI()">Get Random User</button>
-    <ejs-grid :dataSource='people'>
+<!--    <button v-on:click="testAPI()">Get Random User</button>-->
+    <div class="col-lg-12 control-section">
+    <ejs-grid ref='grid' :dataSource='data' :allowPaging = true :pageSettings='pageSettings' :editSettings='editSettings' :toolbar='toolbar'>
         <e-columns>
-            <e-column field='id' headerText='ID' textAlign='Right'  width=100></e-column>
-            <e-column field='name' headerText='Name' width=120></e-column>
-            <e-column field='age' headerText='Age' width=150></e-column>
-            <e-column field='email' headerText='Email' width=150></e-column>
-            <e-column field='OrderID' headerText='Order ID' textAlign='Right' width=90></e-column>
-            <e-column field='CustomerID' headerText='Customer ID' width=120></e-column>
-            <e-column field='Freight' headerText='Freight' textAlign='Right' format='C2' width=90></e-column>
-            <e-column field='OrderDate' headerText='Order Date' textAlign='Right' format='yMd' type='date' width=120></e-column>
+            <e-column field='id' headerText='ID' textAlign='Right' :isPrimaryKey='true'  width=100></e-column>
+            <e-column field='name' headerText='Name' width=120 :validationRules='nameRules' editType='TextBox'></e-column>
+            <e-column field='age' headerText='Age' width=150 :validationRules='ageRules' editType='TextBox'></e-column>
+            <e-column field='email' headerText='Email' width=150 :validationRules='emailRules' editType='TextBox' :allowEditing= 'true'></e-column>
         </e-columns>
     </ejs-grid>
+    </div>
 </template>
 
 <script>
-
 import { GridComponent, ColumnsDirective, ColumnDirective} from "@syncfusion/ej2-vue-grids";
+import { Toolbar, Edit, Page } from "@syncfusion/ej2-vue-grids";
+import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
+
 
 export default {
     name: "ContactItem",
@@ -26,26 +26,32 @@ export default {
         "e-column": ColumnDirective,
     },
     methods: {
-        async getUser() {
-            const res = await fetch('https://randomuser.me/api')
-            const {results} = await res.json()
-            console.log(results)
-        },
-
-        async testAPI() {
-            const res = await fetch('http://localhost:8080/api/v1/people/getAllPeople')
-            this.people = await res.json()
-        },
     },
     data() {
         return {
-            people: []
+            data: new DataManager({
+                url: "http://localhost:8080/api/v2/people/getAllPeople",
+                updateUrl: "http://localhost:8080/api/v2/people/update",
+                insertUrl: "http://localhost:8080/api/v2/people/addNewPeople",
+                removeUrl: "http://localhost:8080/api/v2/people/delete",
+                adaptor: new UrlAdaptor
+            }),
+            people: [],
+            editSettings: { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Normal' },
+            toolbar: ['Add', 'Delete', 'Update', 'Cancel'],
+            nameRules: { required: true },
+            ageRules: { required: true },
+            emailRules: { required: true },
+            pageSettings: {pageCount: 5, pageSize :10}
         };
     },
-    created() {
-        this.getUser()
-        this.testAPI()
+    provide: {
+        grid: [Toolbar, Edit, Page]
     },
+    // created() {
+    //     this.getUser()
+    //     this.testAPI()
+    // },
 }
 </script>
 

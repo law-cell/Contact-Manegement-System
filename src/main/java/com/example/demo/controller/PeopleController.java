@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.DTO.ItemWrapper;
 import com.example.demo.model.People;
+import com.example.demo.DTO.Value;
 import com.example.demo.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +21,25 @@ public class PeopleController {
         this.peopleService = peopleService;
     }
 
+    @GetMapping("/getAllPeople")
+    public ItemWrapper getItems() {
+        List<People> items = peopleService.getAllPeople();// your code to get the items
+        return new ItemWrapper(items, items.size());
+    }
+
     @GetMapping("/hello")
     public String Hello() {
         return "Hello World";
     }
-    @CrossOrigin
-    @GetMapping("/getAllPeople")
-    public List<People> getAllPeople() {
-        return peopleService.getAllPeople();
-    }
+
 
     @PostMapping("/addNewPeople")
-    public ResponseEntity<People> addNewPeople(@RequestBody People people) {
+    public ResponseEntity<People> addNewPeople(@RequestBody Value value) {
+        People people = value.getValue();
         peopleService.addNewPeople(people);
         return ResponseEntity.ok(people);
     }
 
-    @CrossOrigin
     @DeleteMapping("/delete/{peopleId}")
     public ResponseEntity<People> deletePeople(@PathVariable("peopleId") Long id) {
         peopleService.deletePeople(id);

@@ -10,6 +10,8 @@ import lombok.*;
 @NoArgsConstructor(force = true)
 @Entity
 @Table
+@ToString
+@Builder
 public class People {
     @Id
     @SequenceGenerator(
