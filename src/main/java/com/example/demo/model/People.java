@@ -1,7 +1,11 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Setter
@@ -12,6 +16,7 @@ import lombok.*;
 @Table
 @ToString
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class People {
     @Id
     @SequenceGenerator(
@@ -33,4 +38,13 @@ public class People {
 
     @NonNull
     private String email;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    @JsonIgnore
+    private Team team;
+
+    @ManyToMany
+    @JsonIgnore
+    private List<Task> assignedTasks;
 }

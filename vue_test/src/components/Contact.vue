@@ -15,8 +15,6 @@
 <script>
 import {ColumnDirective, ColumnsDirective, Edit, GridComponent, Page, Toolbar} from "@syncfusion/ej2-vue-grids";
 import {DataManager, UrlAdaptor} from '@syncfusion/ej2-data';
-
-
 export default {
     name: "ContactItem",
     components: {
@@ -45,15 +43,14 @@ export default {
             nameRules: { required: true },
             ageRules: { required: true },
             emailRules: { required: true },
-            pageSettings: {pageSize :200, pageCount :10}
+            pageSettings: {pageCount :10, pageSize: 10, pageSizes: true},
+            componentKey: 0
+
         };
     },
     provide: {
         grid: [Toolbar, Edit, Page]
     },
-    // created() {
-    //     this.getUser()
-    // },
 }
 </script>
 

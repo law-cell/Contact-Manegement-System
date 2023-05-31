@@ -22,9 +22,8 @@ public class PeopleController {
     }
 
     @GetMapping("/getAllPeople")
-    public ItemWrapper getItems() {
-        List<People> items = peopleService.getAllPeople();// your code to get the items
-        return new ItemWrapper(items, items.size());
+    public List<People> getItems() {
+        return this.peopleService.getAllPeople();
     }
 
     @GetMapping("/hello")

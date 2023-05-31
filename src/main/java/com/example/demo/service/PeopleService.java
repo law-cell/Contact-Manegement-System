@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.DTO.GanttCrudModel;
+import com.example.demo.DTO.GanttPeopleDTO;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.People;
 import com.example.demo.model.randomUser.MyResponse;
@@ -86,5 +88,18 @@ public class PeopleService {
 
     public Optional<People> getProductById(Long id) {
         return peopleRepository.findById(id);
+    }
+
+    public List<GanttPeopleDTO> getAllPeopleDTO() {
+        List<People> peopleList = this.getAllPeople();
+        List<GanttPeopleDTO> peopleDTOList = new ArrayList<>();
+        for (People people : peopleList) {
+            GanttPeopleDTO ganttPeopleDTO = GanttPeopleDTO.builder()
+                    .id(people.getId())
+                    .name(people.getName())
+                    .build();
+            peopleDTOList.add(ganttPeopleDTO);
+        }
+        return peopleDTOList;
     }
 }

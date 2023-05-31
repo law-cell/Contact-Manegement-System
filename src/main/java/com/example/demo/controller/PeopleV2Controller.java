@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.DTO.GanttPeopleDTO;
+import com.example.demo.DTO.GanttPeopleDTOWrapper;
 import com.example.demo.DTO.ItemWrapper;
 import com.example.demo.DTO.Value;
 import com.example.demo.model.People;
@@ -27,7 +29,8 @@ public class PeopleV2Controller {
         if (jsonMap.containsKey("skip") && jsonMap.containsKey("take")) {
             int skip = (Integer) jsonMap.get("skip");
             int take = (Integer) jsonMap.get("take");
-            return new ItemWrapper(items.subList(skip, skip + take), items.size());
+            List<People> subItems = items.subList(skip, skip + take);
+            return new ItemWrapper(subItems, items.size());
         }
         return new ItemWrapper(items, items.size());
     }
@@ -73,6 +76,12 @@ public class PeopleV2Controller {
         People updatePeople = mapper.readValue(json, People.class);
         People people = peopleService.updatePeople(updatePeople.getId(), updatePeople);
         return ResponseEntity.ok(people);
+    }
+
+    @GetMapping("/getPeopleDTO")
+    public List<GanttPeopleDTO> getPeopleDTO() {
+        List<GanttPeopleDTO> ganttPeopleDTOList = this.peopleService.getAllPeopleDTO();
+        return ganttPeopleDTOList;
     }
 
 }

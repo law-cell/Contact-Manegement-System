@@ -1,4 +1,4 @@
-# Contact-Manegement-System
+# Contact-Management-System
 
 A simple CRUD project, we can create, delete and update the contacts.
 
